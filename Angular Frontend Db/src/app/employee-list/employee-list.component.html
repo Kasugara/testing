@@ -1,0 +1,946 @@
+
+
+
+<br><br>
+<button class="btn btn-lg btn-outline-primary" (click)="open(mymodal)">Tambah Karyawan</button>
+
+<mat-form-field appearance="standard" class="CariKary">
+  <mat-label>Cari Karyawan</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+</mat-form-field>
+
+
+
+<ng-template #mymodal let-modal class="modal-dialog" style="align-items: center;"> 
+  <div class="modal-content">
+  <div class="modal-header"> Form Karyawan 
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  
+  <div class="modal-body">
+    <app-addemployee></app-addemployee>
+  </div></div>
+</ng-template>
+ 
+<div *ngIf="employees" class="card">
+  <div class="card-header">
+    <h3 class="card-title text-center">Data Karyawan</h3>
+  </div>  
+  
+    <div class="ColumnTable1">
+      <table class="table  table-bordered table-hover">
+        <div class="mat-elevation">
+          <table mat-table [dataSource]="dataSource" matSort>
+      
+            <ng-container class="ColumnTable1" matColumnDef="namaLengkap">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Nama Lengkap </th>
+              <td mat-cell *matCellDef="let row"> {{row.namaLengkap}}</td>
+            </ng-container>
+      
+           
+            <ng-container class="ColumnTable1" matColumnDef="emailemp">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="align-content: center;"> Email </th>
+              <td mat-cell *matCellDef="let row"> {{row.emailemp}} </td>
+            </ng-container>
+                 
+            <ng-container class="ColumnTable1" matColumnDef="noHP">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Nomor HP </th>
+              <td mat-cell *matCellDef="let row"> {{row.nomorHP}} </td>
+            </ng-container>
+                
+            <ng-container class="ColumnTable1" matColumnDef="divisi">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Divisi </th>
+              <td mat-cell *matCellDef="let row"> {{row.divisi}} </td>
+            </ng-container>
+
+          <ng-container class="ColumnTable1" matColumnDef="menu">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Menu</th>
+          <td mat-cell *matCellDef="let row">
+            
+            <button 
+            type="submit" 
+            class="btn btn-primary" 
+            (click)="editSelectedEmployee(row.employeeId,mymodaledit)" 
+            style="margin:5px">Update</button> 
+
+            <button 
+            type="submit" 
+            class="btn btn-secondary" 
+            (click)="viewSelectedEmployee(row.employeeId,mymodalview)" 
+            style="margin:5px">View</button>
+            
+            <button 
+            type="submit" 
+            class="btn btn-danger" 
+            (click)="deleteSelectedEmployee(row.employeeId)" 
+            style="margin:5px">Delete</button>
+          
+          </td>         
+          </ng-container>  
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+          </table>
+      
+          <mat-paginator class="paginator-table-kekw" [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Select page of users"></mat-paginator>
+        </div>
+      </table>
+    </div>
+        <!-- <thead class="thead-dark">
+          <tr>
+            <th>Nama</th>
+            <th>Email</th>
+            <th>Nomor Hp</th>
+            <th>Status</th>
+            <th>Menu</th>
+          </tr>
+        </thead>
+        <tbody> 
+          <tr *ngFor =" let employee of employees; let i=index">
+            <td>{{employee.namaLengkap}}</td>
+            <td>{{employee.emailemp}}</td>
+            <td>{{employee.noHP}}</td>
+            <td>{{employee.statusKerja}} </td>  
+            <td> -->
+              
+              <!-- <button 
+              type="submit" 
+              class="btn btn-primary" 
+              (click)="editSelectedEmployee(employee.employeeId,mymodaledit)" 
+              style="margin:5px">Edit</button> 
+              <button 
+              type="submit" 
+              class="btn btn-secondary" 
+              (click)="viewSelectedEmployee(employee.employeeId,mymodalview)" 
+              style="margin:5px">View</button>  -->
+              
+              
+           
+              <ng-template #mymodaledit let-modal>
+                <div class ="modal-content">
+                <div class="modal-header"> Edit Data Karyawan
+                  <button type="button" class="close" aria-label="Close" (click)="modal.editSelectedEmployee">
+                      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                     <span aria-hidden="true">×</span>
+                    </button>
+                  </button>
+                </div>
+                
+                <div class="modal-body">
+
+                  <div class="container" style="max-width: 800px;">
+                    <form [formGroup]="editEmployee" (ngSubmit)="updateEmployeeFormSubmit(editedEmployee.employeeId)">
+                                   
+                <div class="form-group">
+                        <label for="namaLengkap">Nama Lengkap:</label>
+                        <input
+                        formControlName="namaLengkap"
+                        id="namaLengkap"
+                        type="text"
+                        class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="namaPanggilan">Nama Panggilan:</label>
+                    <input
+                    formControlName="namaPanggilan"
+                    id="namaPanggilan"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label> Gender:</label>
+                    <div class formControlName="gender">
+                        <label class="radio-inline"><input formControlName="gender" type="radio" value="Laki-laki">
+                        
+                        Laki-Laki
+                        </label><br>
+                        <label class="radio-inline"><input formControlName="gender" type="radio" value="Perempuan">
+                            Perempuan
+                        </label>
+                    </div>
+                </div>
+                                
+                <div class="form-group">
+                    <label for="emailemp">Email:</label>
+                    <input
+                    formControlName="emailemp"
+                    id="emailemp"
+                    type="email"
+                    class="form-control">
+
+                </div>
+                                
+                <div class="form-group">
+                    <label for="tanggalLahir">Tanggal Lahir:</label>
+                    <input
+                    formControlName="tanggalLahir"
+                    id="tanggalLahir"
+                    type="date"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="kotaKelahiran">Kota Kelahiran:</label>
+                    <input
+                    formControlName="kotaKelahiran"
+                    id="kotaKelahiran"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="agama">Agama:</label>
+                    
+                    <select class="form-control" id="exampleFormControlSelect1" formControlName="agama">
+                        <option>Konghucu</option>
+                        <option>Buddha</option>
+                        <option>Kristen</option>
+                        <option>Katolik</option>
+                        <option>Hindu</option>
+                        <option>Islam</option>
+                      </select>
+                    </div>
+                
+                <div class="form-group">
+                    <label for="noKtp">Nomor KTP:</label>
+                    <input
+                    formControlName="noKtp"
+                    id="noKtp"
+                    type="tel"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="uploadKtp">Upload KTP:</label>
+                    <input
+                    formControlName="uploadKtp"
+                    id="uploadKtp"
+                    type="file"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="alamat">Alamat:</label>
+                    <input
+                    formControlName="alamat"
+                    id="alamat"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tinggi">Tinggi:</label>
+                    <input
+                    formControlName="tinggi"
+                    id="tinggi"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="beratBadan">Berat Badan:</label>
+                    <input
+                    formControlName="beratBadan"
+                    id="beratBadan"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="golonganDarah">Golongan Darah:</label>
+                    <input
+                    formControlName="golonganDarah"
+                    id="golonganDarah"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="kacamata">Berkacamata/tidak:</label>
+                    <input
+                    formControlName="kacamata"
+                    id="kacamata"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="statusPernikahan">Status Pernikahan:</label>
+                    <select class="form-control" id="exampleFormControlSelect1" formControlName="statusPernikahan">
+                        <option>Belum Menikah</option>
+                        <option>Menikah</option>
+                        <option>Single Parent</option>
+                        <option>Lainnya</option>
+                        </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jumlahAnak">Jumlah Anak:</label>
+                    <input
+                    formControlName="jumlahAnak"
+                    id="jumlahAnak"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="noHP">Nomor Handphone/WA:</label>
+                    <input
+                    formControlName="noHP"
+                    id="noHP"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="jabatan">Jabatan:</label>
+                    <select class="form-control" id="exampleFormControlSelect1" formControlName="jabatan">
+                        <option>Head</option>
+                        <option>Supervisor</option>
+                        <option>Koordinator</option>
+                        <option>Staff</option>
+                        <option>MSO</option>
+                        <option>CSO</option>
+                        <option>Driver</option>
+                        <option>Kurir</option>
+                        <option>OB</option>
+                        </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="divisi">Divisi:</label>
+                    <input
+                    formControlName="divisi"
+                    id="divisi"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="akunInstagram">Akun Instagram:</label>
+                    <input
+                    formControlName="akunInstagram"
+                    id="akunInstagram"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="noNpwp">Nomor NPWP:</label>
+                    <input
+                    formControlName="noNpwp"
+                    id="noNpwp"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="uploadNpwp">Upload NPWP:</label>
+                    <input
+                    formControlName="uploadNpwp"
+                    id="uploadNpwp"
+                    type="file"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="uploadImageSolo">Foto :</label>
+                    <input
+                    formControlName="uploadImageSolo"
+                    id="uploadImageSolo"
+                    type="file"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="noRekBca">Nomor Rekening BCA:</label>
+                    <input
+                    formControlName="noRekBca"
+                    id="noRekBca"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="nomorMember">Nomor Member: </label>
+                    <input
+                    formControlName="nomorMember"
+                    id="nomorMember"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                
+                <div class="form-group">
+                    <label for="pendidikanTerakhir">Pendidikan Terakhir:</label>
+                    <select class="form-control" id="exampleFormControlSelect1" formControlName="pendidikanTerakhir">
+                        <option>SD</option>
+                        <option>SMP / Sederajat</option>
+                        <option>SMA / Sederajat</option>
+                        <option>D1 - D3</option>
+                        <option>S1</option>
+                        <option>S2 - S3</option>
+                        <option>Lainnya</option>
+                        </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="namaPendidikan">Nama Universitas/Sekolah :</label>
+                    <input
+                    formControlName="namaPendidikan"
+                    id="namaPendidikan"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                
+                
+                <div class="form-group">
+                    <label for="tahunKelulusan">Tahun Kelulusan:</label>
+                    <input
+                    formControlName="tahunKelulusan"
+                    id="tahunKelulusan"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="namaAyah">Nama Ayah:</label>
+                    <input
+                    formControlName="namaAyah"
+                    id="namaAyah"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="pekerjaanAyah">Pekerjaan Ayah:</label>
+                    <input
+                    formControlName="pekerjaanAyah"
+                    id="pekerjaanAyah"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="namaIbu">Nama Ibu:</label>
+                    <input
+                    formControlName="namaIbu"
+                    id="namaIbu"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="pekerjaanIbu">Pekerjaan Ibu:</label>
+                    <input
+                    formControlName="pekerjaanIbu"
+                    id="pekerjaanIbu"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="anakKeberapa">Anak Ke Berapa:</label>
+                    <input
+                    formControlName="anakKeberapa"
+                    id="anakKeberapa"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="jumlahSaudara">Jumlah Saudara:</label>
+                    <input
+                    formControlName="jumlahSaudara"
+                    id="jumlahSaudara"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="namaKontakDarurat">Nama Kontak Darurat:</label>
+                    <input
+                    formControlName="namaKontakDarurat"
+                    id="namaKontakDarurat"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="hubunganKontakDarurat">Hubungan Kontak Darurat:</label>
+                    <input
+                    formControlName="hubunganKontakDarurat"
+                    id="hubunganKontakDarurat"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="noHpKontakDarurat">Nomor Kontak Darurat yang dapat dihubungi:</label>
+                    <br>
+                    <input
+                    formControlName="noHpKontakDarurat"
+                    id="noHpKontakDarurat"
+                    type="text"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="kantorCabang">Kantor Cabang:</label>
+                    <select class="form-control" id="kantorCabang" formControlName="kantorCabang">
+                        <option>MR GI</option>
+                        <option>MR BGM</option>
+                        <option>MR PIK</option>
+                        <option>MR ELANG LAUT</option>
+                        <option>MR PLUIT</option>
+                        <option>MR PURI</option>
+                        <option>MR CITRA</option>
+                        <option>MR GLC</option>
+                        <option>MR ROXY</option>
+                        <option>MR Kuningan</option>
+                        <option>MR Bandung</option>
+                        <option>Lainnya</option>
+                        </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="statusKerja">Status Kerja:</label>
+                    <select class="form-control" id="statusKerja" formControlName="statusKerja">
+                      <option>Aktif</option>
+                      <option>Tidak Aktif</option>
+                      </select>
+              </div>
+                
+                <div class="form-group">
+                    <label for="hireDate">Tanggal Diterima :</label>
+                    <input
+                    formControlName="hireDate"
+                    id="hireDate"
+                    type="date"
+                    class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="resignDate">Tanggal Mengundurkan Diri :</label>
+                    <input
+                    formControlName="resignDate"
+                    id="resignDate"
+                    type="date"
+                    class="form-control">
+                    
+                </div>
+                        <button type="submit" class="btn btn-success">Save</button>&nbsp;&nbsp;                      
+                    </form>
+                </div>
+                  
+
+                </div>
+              </div>
+              </ng-template>
+                  
+
+
+
+
+
+
+              <ng-template #mymodalview let-modal>
+                <div class="modal-content">
+                <div class="modal-header"> Data Karyawan
+                  <button type="button" class="close" aria-label="Close" (click)="modal.viewSelectedEmployee('Cross click')">
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                      <span aria-hidden="true">×</span>
+                  </button>
+                </button>
+                </div>
+                
+                <div class="modal-body">          
+                  <form>        
+                    <fieldset disabled>
+                    <div class="form-row">
+                          <label for="namaLengkap" class="col-sm col-form-label">Nama Lengkap :</label>
+                          <div class="col-sm-8">
+                          <input type="text"  class="form-control" id="namaLengkap" placeholder="{{selectEmployee.namaLengkap}} ">
+                        </div>
+                      </div>                 
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Nama Panggilan :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="namaPanggilan" placeholder="{{selectEmployee.namaPanggilan}}">
+                  </div>
+                </div>   
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Email :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="emailemp" placeholder="{{selectEmployee.emailemp}}">
+                  </div>
+                </div>   
+                  <hr>
+                  <br>
+                  
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Gender :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="gender" placeholder="{{selectEmployee.gender}}">
+                  </div>
+                </div>   
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Tanggal Lahir :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="tanggalLahir" placeholder="{{selectEmployee.tanggalLahir}}">
+                  </div>
+                </div>   
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Kota Kelahiran :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="kotaKelahiran" placeholder="{{selectEmployee.kotaKelahiran}}">
+                  </div>
+                </div>   
+                  <hr>
+                  <br>
+                  
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Agama :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="agama" placeholder="{{selectEmployee.agama}}">
+                    </div>
+                </div>   
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Nomor KTP :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="noKtp" placeholder="{{selectEmployee.noKtp}}">
+                    </div>
+                </div>   
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Foto KTP :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="uploadKtp" placeholder="{{selectEmployee.uploadKtp}}" [src]="selectEmployee.uploadKtp" height="100" width="100" *ngIf="selectEmployee.uploadKtp">
+	                  <!-- <img [src]="url" height="100" width="100" *ngIf="url"> -->
+                    </div>
+                </div>   
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Nomor HP atau WA :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="noHP" placeholder="{{selectEmployee.noHP}}">
+                    </div>
+                </div>   
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Alamat :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="alamat" placeholder="{{selectEmployee.alamat}}">
+                    </div>
+                </div>   
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Tinggi :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="tinggi" placeholder="{{selectEmployee.tinggi}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Berat Badan :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="beratBadan" placeholder="{{selectEmployee.beratBadan}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+                  
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Golongan Darah :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="golonganDarah" placeholder="{{selectEmployee.golonganDarah}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Berkacamata (Ya/Tidak) :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="kacamata" placeholder="{{selectEmployee.kacamata}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Status Pernikahan :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="statusPernikahan" placeholder="{{selectEmployee.statusPernikahan}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Jumlah Anak :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="jumlahAnak" placeholder="{{selectEmployee.jumlahAnak}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+                  
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Jabatan :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="jabatan" placeholder="{{selectEmployee.jabatan}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Akun Instagram :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="akunInstagram" placeholder="{{selectEmployee.akunInstagram}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Nomor NPWP :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="noNpwp" placeholder="{{selectEmployee.noNpwp}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Foto NPWP :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="uploadNpwp" placeholder="{{selectEmployee.uploadNpwp}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Foto Diri :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="uploadImageSolo" placeholder="{{selectEmployee.uploadImageSolo}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Nomor Member :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="nomorMember" placeholder="{{selectEmployee.nomorMember}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Nomor Rekening BCA :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="noRekBca" placeholder="{{selectEmployee.noRekBca}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+               
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Pendidikan Terakhir :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="pendidikanTerakhir" placeholder="{{selectEmployee.pendidikanTerakhir}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Nama Universitas/Sekolah Terakhir :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="namaPendidikan" placeholder="{{selectEmployee.namaPendidikan}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Tahun Kelulusan :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="tahunKelulusan" placeholder="{{selectEmployee.tahunKelulusan}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Divisi :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="divisi" placeholder="{{selectEmployee.divisi}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Nama Ayah :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="namaAyah" placeholder="{{selectEmployee.namaAyah}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Pekerjaan Ayah :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="pekerjaanAyah" placeholder="{{selectEmployee.pekerjaanAyah}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Nama Ibu :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="namaIbu" placeholder="{{selectEmployee.namaIbu}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Pekerjaan Ibu :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="pekerjaanIbu" placeholder="{{selectEmployee.pekerjaanIbu}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Anak Keberapa :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="anakKeberapa" placeholder="{{selectEmployee.anakKeberapa}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+                                   
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Jumlah Saudara :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="jumlahSaudara" placeholder="{{selectEmployee.jumlahSaudara}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Nama Kontak Darurat yang dapat dihubungi :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="namaKontakDarurat" placeholder="{{selectEmployee.namaKontakDarurat}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                 <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Hubungan Kontak Darurat :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="hubunganKontakDarurat" placeholder="{{selectEmployee.hubunganKontakDarurat}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                   <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Nomor Kontak Darurat :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="noHpKontakDarurat" placeholder="{{selectEmployee.noHpKontakDarurat}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Kantor Cabang :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="kantorCabang" placeholder="{{selectEmployee.kantorCabang}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                   <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Tanggal Diterima :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="hireDate" placeholder="{{selectEmployee.hireDate}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+
+                  <div class="form-row">
+                    <label for="namaLengkap" class="col-sm col-form-label">Tanggal Mengundurkan Diri :</label>
+                    <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="resignDate" placeholder="{{selectEmployee.resignDate}}">
+                    </div>
+                </div>  
+                  <hr>
+                  <br>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+              </ng-template>
+              
+              
+              
+              
+    
+    
+
+   
+    
+
+
+
+

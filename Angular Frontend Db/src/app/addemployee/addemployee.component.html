@@ -1,0 +1,548 @@
+
+
+<!-- Add Employee -->
+
+<div class="container">
+    <form [formGroup]="employees" (ngSubmit)="addEmployeeformsubmit()">
+
+<div class="form-group">
+        <label for="namaLengkap">Nama Lengkap:</label>
+        <input
+        formControlName="namaLengkap"
+        id="namaLengkap"
+        type="text"
+        class="form-control">
+        <div *ngIf="f['namaLengkap'].touched && f['namaLengkap']?.invalid" class="alert alert-danger">
+<div *ngIf="f['namaLengkap'].errors && f['namaLengkap'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="namaPanggilan">Nama Panggilan:</label>
+    <input
+    formControlName="namaPanggilan"
+    id="namaPanggilan"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['namaPanggilan'].touched && f['amaPanggilan']?.invalid" class="alert alert-danger">
+<div *ngIf="f['namaPanggilan'].errors && f['namaPanggilan'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label> Gender:</label>
+    <div class ="gender">
+        <label class="radio-inline"><input formControlName="gender" type="radio" value="Laki-laki">
+        
+        Laki-Laki
+        </label><br>
+        <label class="radio-inline"><input formControlName="gender" type="radio" value="Perempuan">
+            Perempuan
+        </label>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label for="emailemp">Email:</label>
+    <input
+    formControlName="emailemp"
+    id="emailemp"
+    type="email"
+    class="form-control">
+    <div *ngIf="f['emailemp'].touched && f['emailemp']?.invalid" class="alert alert-danger">
+<div *ngIf="f['emailemp'].errors && f['emailemp'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+
+<div class="form-group">
+    <label for="tanggalLahir">Tanggal Lahir:</label>
+    <input
+    formControlName="tanggalLahir"
+    id="tanggalLahir"
+    type="date"
+    class="form-control">
+    <div *ngIf="f['tanggalLahir'].touched && f['tanggalLahir']?.invalid" class="alert alert-danger">
+<div *ngIf="f['tanggalLahir'].errors && f['tanggalLahir'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<!-- <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker">
+      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field> -->
+
+
+<div class="form-group">
+    <label for="kotaKelahiran">Kota Kelahiran:</label>
+    <input
+    formControlName="kotaKelahiran"
+    id="kotaKelahiran"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['kotaKelahiran'].touched && f['kotaKelahiran']?.invalid" class="alert alert-danger">
+<div *ngIf="f['kotaKelahiran'].errors && f['kotaKelahiran'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="agama">Agama:</label>
+    
+    <select class="form-control" id="exampleFormControlSelect1" formControlName="agama" >
+        <option>Konghucu</option>
+        <option>Buddha</option>
+        <option>Kristen</option>
+        <option>Katolik</option>
+        <option>Hindu</option>
+        <option>Islam</option>
+      </select>
+    </div>
+    <div *ngIf="f['agama'].touched && f['agama']?.invalid" class="alert alert-danger">
+<div *ngIf="f['agama'].errors && f['agama'].errors['required']">Mohon dipilih</div>
+</div>
+
+
+<div class="form-group">
+    <label for="noKtp">Nomor KTP:</label>
+    <input
+    formControlName="noKtp"
+    id="noKtp"
+    type="tel"
+    class="form-control">
+    <div *ngIf="f['noKtp'].touched && f['noKtp'].invalid" class="alert alert-danger">
+<div *ngIf="f['noKtp'].errors && f['noKtp'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="uploadKtp">Upload KTP:</label>
+    
+    <input
+    formControlName="uploadKtp"
+    id="uploadKtp"
+    type="file"
+    class="form-control"
+    (change)="onSelectFile($event)">
+    <div [innerHtml]='msg' *ngIf="msg" style="color: red;"></div>
+	<div><img [src]="url" height="100" width="100" *ngIf="url"></div>
+    <!-- <div *ngIf="f['uploadKtp'].touched && f['uploadKtp'].invalid" class="alert alert-danger">
+<div *ngIf="f['uploadKtp'].errors && f['uploadKtp'].errors['required']">Mohon diisi</div>
+</div> -->
+</div>
+
+<div class="form-group">
+    <label for="alamat">Alamat:</label>
+    <input
+    formControlName="alamat"
+    id="alamat"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['alamat'].touched && f['alamat'].invalid" class="alert alert-danger">
+<div *ngIf="f['alamat'].errors && f['alamat'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="tinggi">Tinggi:</label>
+    <input
+    formControlName="tinggi"
+    id="tinggi"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['tinggi'].touched && f['tinggi'].invalid" class="alert alert-danger">
+<div *ngIf="f['tinggi'].errors && f['tinggi'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="beratBadan">Berat Badan:</label>
+    <input
+    formControlName="beratBadan"
+    id="beratBadan"
+    type="text"
+    class="form-control"> 
+    <span>Kg</span>
+    <div *ngIf="f['beratBadan'].touched && f['beratBadan'].invalid" class="alert alert-danger">
+<div *ngIf="f['beratBadan'].errors && f['beratBadan'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="golonganDarah">Golongan Darah:</label>
+    <input
+    formControlName="golonganDarah"
+    id="golonganDarah"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['golonganDarah'].touched && f['golonganDarah'].invalid" class="alert alert-danger">
+<div *ngIf="f['golonganDarah'].errors && f['golonganDarah'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="kacamata">Berkacamata/tidak:</label>
+    <input
+    formControlName="kacamata"
+    id="kacamata"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['kacamata'].touched && f['kacamata'].invalid" class="alert alert-danger">
+<div *ngIf="f['kacamata'].errors && f['kacamata'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="statusPernikahan">Status Pernikahan:</label>
+    <select class="form-control" id="exampleFormControlSelect1" formControlName="statusPernikahan">
+        <option>Belum Menikah</option>
+        <option>Menikah</option>
+        <option>Single Parent</option>
+        <option>Lainnya</option>
+        </select>
+    <div *ngIf="f['statusPernikahan'].touched && f['statusPernikahan'].invalid" class="alert alert-danger">
+<div *ngIf="f['statusPernikahan'].errors && f['statusPernikahan'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="jumlahAnak">Jumlah Anak:</label>
+    <input
+    formControlName="jumlahAnak"
+    id="jumlahAnak"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['jumlahAnak'].touched && f['jumlahAnak'].invalid" class="alert alert-danger">
+<div *ngIf="f['jumlahAnak'].errors && f['jumlahAnak'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="noHP">Nomor Handphone/WA:</label>
+    <input
+    formControlName="noHP"
+    id="noHP"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['noHP'].touched && f['noHP'].invalid" class="alert alert-danger">
+<div *ngIf="f['noHP'].errors && f['noHP'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="jabatan">Jabatan:</label>
+    <select class="form-control" id="exampleFormControlSelect1" formControlName="jabatan">
+        <option>Head</option>
+        <option>Supervisor</option>
+        <option>Koordinator</option>
+        <option>Staff</option>
+        <option>MSO</option>
+        <option>CSO</option>
+        <option>Driver</option>
+        <option>Kurir</option>
+        <option>OB</option>
+        </select>
+    <div *ngIf="f['jabatan'].touched && f['jabatan'].invalid" class="alert alert-danger">
+<div *ngIf="f['jabatan'].errors && f['jabatan'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="divisi">Divisi:</label>
+    <input
+    formControlName="divisi"
+    id="divisi"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['divisi'].touched && f['divisi'].invalid" class="alert alert-danger">
+<div *ngIf="f['divisi'].errors && f['divisi'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="akunInstagram">Akun Instagram:</label>
+    <input
+    formControlName="akunInstagram"
+    id="akunInstagram"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['akunInstagram'].touched && f['akunInstagram'].invalid" class="alert alert-danger">
+<div *ngIf="f['akunInstagram'].errors && f['akunInstagram'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="noNpwp">Nomor NPWP:</label>
+    <input
+    formControlName="noNpwp"
+    id="noNpwp"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['noNpwp'].touched && f['noNpwp'].invalid" class="alert alert-danger">
+<div *ngIf="f['noNpwp'].errors && f['noNpwp'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="uploadNpwp">Upload NPWP:</label>
+    <input
+    formControlName="uploadNpwp"
+    id="uploadNpwp"
+    type="file"
+    class="form-control">
+    <div *ngIf="f['uploadNpwp'].touched && f['uploadNpwp'].invalid" class="alert alert-danger">
+<div *ngIf="f['uploadNpwp'].errors && f['uploadNpwp'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="uploadImageSolo">Foto :</label>
+    <input
+    formControlName="uploadImageSolo"
+    id="uploadImageSolo"
+    type="file"
+    class="form-control">
+    <div *ngIf="f['uploadImageSolo'].touched && f['uploadImageSolo'].invalid" class="alert alert-danger">
+<div *ngIf="f['uploadImageSolo'].errors && f['uploadImageSolo'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="noRekBca">Nomor Rekening BCA:</label>
+    <input
+    formControlName="noRekBca"
+    id="noRekBca"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['noRekBca'].touched && f['noRekBca'].invalid" class="alert alert-danger">
+<div *ngIf="f['noRekBca'].errors && f['noRekBca'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="nomorMember">Nomor Member: </label>
+    <input
+    formControlName="nomorMember"
+    id="nomorMember"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['nomorMember'].touched && f['nomorMember'].invalid" class="alert alert-danger">
+<div *ngIf="f['nomorMember'].errors && f['nomorMember'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+
+<div class="form-group">
+    <label for="pendidikanTerakhir">Pendidikan Terakhir:</label>
+    <select class="form-control" id="exampleFormControlSelect1" formControlName="pendidikanTerakhir">
+        <option>SD</option>
+        <option>SMP / Sederajat</option>
+        <option>SMA / Sederajat</option>
+        <option>D1 - D3</option>
+        <option>S1</option>
+        <option>S2 - S3</option>
+        <option>Lainnya</option>
+        </select>
+    <div *ngIf="f['pendidikanTerakhir'].touched && f['pendidikanTerakhir'].invalid" class="alert alert-danger">
+<div *ngIf="f['pendidikanTerakhir'].errors && f['pendidikanTerakhir'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="namaPendidikan">Nama Universitas/Sekolah :</label>
+    <input
+    formControlName="namaPendidikan"
+    id="namaPendidikan"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['namaPendidikan'].touched && f['namaPendidikan'].invalid" class="alert alert-danger">
+<div *ngIf="f['namaPendidikan'].errors && f['namaPendidikan'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+
+
+<div class="form-group">
+    <label for="tahunKelulusan">Tahun Kelulusan:</label>
+    <input
+    formControlName="tahunKelulusan"
+    id="tahunKelulusan"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['tahunKelulusan'].touched && f['tahunKelulusan'].invalid" class="alert alert-danger">
+<div *ngIf="f['tahunKelulusan'].errors && f['tahunKelulusan'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="namaAyah">Nama Ayah:</label>
+    <input
+    formControlName="namaAyah"
+    id="namaAyah"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['namaAyah'].touched && f['namaAyah'].invalid" class="alert alert-danger">
+<div *ngIf="f['namaAyah'].errors && f['namaAyah'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="pekerjaanAyah">Pekerjaan Ayah:</label>
+    <input
+    formControlName="pekerjaanAyah"
+    id="pekerjaanAyah"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['pekerjaanAyah'].touched && f['pekerjaanAyah'].invalid" class="alert alert-danger">
+<div *ngIf="f['pekerjaanAyah'].errors && f['pekerjaanAyah'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="namaIbu">Nama Ibu:</label>
+    <input
+    formControlName="namaIbu"
+    id="namaIbu"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['namaIbu'].touched && f['namaIbu'].invalid" class="alert alert-danger">
+<div *ngIf="f['namaIbu'].errors && f['namaIbu'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="pekerjaanIbu">Pekerjaan Ibu:</label>
+    <input
+    formControlName="pekerjaanIbu"
+    id="pekerjaanIbu"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['pekerjaanIbu'].touched && f['pekerjaanIbu'].invalid" class="alert alert-danger">
+<div *ngIf="f['pekerjaanIbu'].errors && f['pekerjaanIbu'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="anakKeberapa">Anak Ke Berapa:</label>
+    <input
+    formControlName="anakKeberapa"
+    id="anakKeberapa"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['anakKeberapa'].touched && f['anakKeberapa'].invalid" class="alert alert-danger">
+<div *ngIf="f['anakKeberapa'].errors && f['anakKeberapa'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="jumlahSaudara">Jumlah Saudara:</label>
+    <input
+    formControlName="jumlahSaudara"
+    id="jumlahSaudara"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['jumlahSaudara'].touched && f['jumlahSaudara'].invalid" class="alert alert-danger">
+<div *ngIf="f['jumlahSaudara'].errors && f['jumlahSaudara'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="namaKontakDarurat">Nama Kontak Darurat:</label>
+    <input
+    formControlName="namaKontakDarurat"
+    id="namaKontakDarurat"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['namaKontakDarurat'].touched && f['namaKontakDarurat'].invalid" class="alert alert-danger">
+<div *ngIf="f['namaKontakDarurat'].errors && f['namaKontakDarurat'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="hubunganKontakDarurat">Hubungan Kontak Darurat:</label>
+    <input
+    formControlName="hubunganKontakDarurat"
+    id="hubunganKontakDarurat"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['hubunganKontakDarurat'].touched && f['hubunganKontakDarurat'].invalid" class="alert alert-danger">
+<div *ngIf="f['hubunganKontakDarurat'].errors && f['hubunganKontakDarurat'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="noHpKontakDarurat">Nomor Kontak Darurat yang dapat dihubungi:</label>
+    <br>
+    <input
+    formControlName="noHpKontakDarurat"
+    id="noHpKontakDarurat"
+    type="text"
+    class="form-control">
+    <div *ngIf="f['noHpKontakDarurat'].touched && f['noHpKontakDarurat'].invalid" class="alert alert-danger">
+<div *ngIf="f['noHpKontakDarurat'].errors && f['noHpKontakDarurat'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="kantorCabang">Kantor Cabang:</label>
+    <select class="form-control" id="kantorCabang" formControlName="kantorCabang">
+        <option>MR GI</option>
+        <option>MR BGM</option>
+        <option>MR PIK</option>
+        <option>MR ELANG LAUT</option>
+        <option>MR PLUIT</option>
+        <option>MR PURI</option>
+        <option>MR CITRA</option>
+        <option>MR GLC</option>
+        <option>MR ROXY</option>
+        <option>MR Kuningan</option>
+        <option>MR Bandung</option>
+        <option>Lainnya</option>
+        </select>
+    <div *ngIf="f['kantorCabang'].touched && f['kantorCabang'].invalid" class="alert alert-danger">
+<div *ngIf="f['kantorCabang'].errors && f['kantorCabang'].errors['required']">Mohon dipilih</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="statusKerja">Status Kerja:</label>
+    <select class="form-control" id="statusKerja" formControlName="statusKerja">
+        <option>Aktif</option>
+        <option>Tidak Aktif</option>
+        </select>
+    <div *ngIf="f['statusKerja'].touched && f['statusKerja'].invalid" class="alert alert-danger">
+<div *ngIf="f['statusKerja'].errors && f['statusKerja'].errors['required']">Mohon diisi</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="hireDate">Tanggal Diterima :</label>
+    <input
+    formControlName="hireDate"
+    id="hireDate"
+    type="date"
+    class="form-control">
+</div>
+
+<div class="form-group">
+    <label for="resignDate">Tanggal Mengundurkan Diri :</label>
+    <input
+    formControlName="resignDate"
+    id="resignDate"
+    type="date"
+    class="form-control">
+</div>
+
+
+
+        <button type="submit" class="btn btn-success">Save</button>&nbsp;&nbsp;
+        
+
+
+    </form>
+
+</div>

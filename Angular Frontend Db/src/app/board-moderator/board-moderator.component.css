@@ -1,0 +1,27 @@
+
+
+  .modal-body  {
+    max-width: 750px; 
+  }
+
+.modal-header{
+    max-width: 750px; 
+  }
+
+.modal-dialog{
+  max-width: 750px;
+}
+
+
+table {
+  width: 100%;
+  
+  
+}
+
+.modal-content{
+  width: 750px;
+  right: 125px;
+  background-color: rgb(249, 248, 248);
+  
+}
