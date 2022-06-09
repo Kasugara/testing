@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  product-service:
+    image: hendisantika/product-service:v3
+    container_name: product-service
+    depends_on:
+      - mariadb
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://productdb:3306/products?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&useSSL=false
+      - "JAVA_OPTS=-Xmx12g -Xms12g -XX:MaxPermSize=1024m -XX:ReservedCodeCacheSize=6G -XX:MaxDirectMemorySize=6G -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=1"
+    ports:
+      - 8080:8080
+
+  mariadb:
+    image: mariadb:latest
+    container_name: productdb
+    volumes:
+      - ~/Docker/volumes/product/mysql/:/var/lib/mysql/
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=products
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --collation-server=utf8mb4_unicode_ci
